@@ -20,6 +20,8 @@ public class Educonfig {
         return new LogicSqlInjector();
     }
 
+
+    //分页插件配置
     @Bean
     public PaginationInterceptor paginationInterceptor() {
         return new PaginationInterceptor();

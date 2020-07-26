@@ -3,7 +3,9 @@ package com.atguigu.eduservice.service;
 import com.atguigu.commonutils.R;
 import com.atguigu.eduservice.entity.EduCourse;
 import com.atguigu.eduservice.vo.CourseInfoVO;
+import com.atguigu.eduservice.vo.CourseSerachVO;
 import com.baomidou.mybatisplus.extension.service.IService;
+import org.springframework.validation.BindingResult;
 
 /**
  * <p>
@@ -15,11 +17,16 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface EduCourseService extends IService<EduCourse> {
 
-    public R addCourseInfo(CourseInfoVO courseInfoVO);
+    R addCourseInfo(CourseInfoVO courseInfoVO);
 
     CourseInfoVO getCourseInfo(String courseId);
 
     void updateCourseInfo(CourseInfoVO courseInfoVo);
 
     R getPublishCourseInfo(String courseId);
+
+    R getCourseList(long current,long limit,CourseSerachVO courseSerachVO);
+
+
+    R coursesAndOthers(String id);
 }

@@ -5,10 +5,14 @@ import com.atguigu.commonutils.R;
 import com.atguigu.eduservice.entity.EduCourse;
 import com.atguigu.eduservice.service.EduCourseService;
 import com.atguigu.eduservice.vo.CourseInfoVO;
+import com.atguigu.eduservice.vo.CourseSerachVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+import org.apache.ibatis.annotations.Param;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import springfox.documentation.service.ApiListing;
+
 
 import javax.annotation.Resource;
 
@@ -30,7 +34,7 @@ public class EduCourseController {
 
     @PostMapping("addCourseInfo")
     @ApiOperation(value = "添加课程信息和课程描述信息")
-    public R addCourseInfo(@RequestBody CourseInfoVO courseInfoVO) {
+    public R addCourseInfo(@RequestBody CourseInfoVO courseInfoVO ) {
         return eduCourseService.addCourseInfo(courseInfoVO);
 
     }
@@ -59,11 +63,27 @@ public class EduCourseController {
 
     //课程最终发布，修改课程状态
     @PostMapping("publishCourse/{id}")
+    @ApiOperation(value = "课程最终发布，修改课程状态")
     public R publishCourse(@PathVariable String id) {
         EduCourse eduCourse = new EduCourse();
         eduCourse.setId(id);
         eduCourse.setStatus("Normal");
         return eduCourseService.updateById(eduCourse) ? R.ok() : R.error();
+    }
+
+    //查询课程列表
+    @PostMapping("pageCourseCondition/{current}/{limit}")
+    @ApiOperation(value = "多条件查询课程列表")
+    public R getCourseList(@PathVariable long current, @PathVariable long limit
+            ,@RequestBody(required = false) CourseSerachVO courseSerachVO) {
+        return eduCourseService.getCourseList(current, limit,courseSerachVO);
+    }
+
+    //逻辑上删除
+    @DeleteMapping("{id}")
+    @ApiOperation("逻辑上删除课程接口")
+    public R deleteCourse(@ApiParam(name = "id", value = "课程id", required = true) @PathVariable String id) {
+        return eduCourseService.coursesAndOthers(id);
     }
 }
 

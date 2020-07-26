@@ -38,8 +38,8 @@ public class EduVideoController {
     @ApiOperation(value = "视频删除")
     //TODO 以后会将这个方法完善
     public R deleteVideo(@PathVariable String id) {
-        boolean result = eduVideoService.removeById(id);
-        return result ? R.ok() : R.error();
+        return eduVideoService.remVidAndAliyu(id);
+
     }
 
 }

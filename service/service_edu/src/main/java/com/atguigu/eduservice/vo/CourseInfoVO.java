@@ -3,6 +3,7 @@ package com.atguigu.eduservice.vo;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
@@ -25,6 +26,7 @@ public class CourseInfoVO implements Serializable {
     @ApiModelProperty(value = "一级分类专业父级ID")
     private String subjectParentId;
 
+    @NotNull
     @ApiModelProperty(value = "课程标题")
     private String title;
 

@@ -1,14 +1,15 @@
 server:
-  port: 8002
+  port: 8003
 spring:
   application:
-    name: service_oss
+    name: service_vod
   profiles:
     active: dev
   servlet:
     multipart:
       max-file-size: 1024MB   #文件上传单个文件最大 ，默认是1MB
       max-request-size: 1024MB #最大置总上传数据大小为 默认是10MB
+
 
 #阿里云oss
 aliyun:
@@ -18,3 +19,4 @@ aliyun:
       keyid:  LTAI4FjWa9vboNKj7NxGpLTW
       keysecret:  deCyHlvBqywIa6LOjl8XP8WLBPcHkR
       bucketname: edu-itguigu
+
