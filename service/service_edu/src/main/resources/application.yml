@@ -15,6 +15,11 @@ spring:
   jackson:
     date-format: yyyy-MM-dd HH:mm:ss
     time-zone: GMT+8
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848  #nacos服务地址
+
       #mp日志
 mybatis-plus:
   mapper-locations: classpath:mappers/*.xml  #mp的扫描xml路径配置

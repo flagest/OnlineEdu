@@ -2,14 +2,17 @@ server:
   port: 8003
 spring:
   application:
-    name: service_vod
+    name: service-vod
   profiles:
     active: dev
   servlet:
     multipart:
       max-file-size: 1024MB   #文件上传单个文件最大 ，默认是1MB
-      max-request-size: 1024MB #最大置总上传数据大小为 默认是10MB
-
+      max-request-size: 1024MB   #最大置总上传数据大小为 默认是10MB
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
 
 #阿里云oss
 aliyun:

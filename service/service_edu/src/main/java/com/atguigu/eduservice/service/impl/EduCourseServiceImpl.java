@@ -1,6 +1,7 @@
 package com.atguigu.eduservice.service.impl;
 
 import com.atguigu.commonutils.R;
+import com.atguigu.eduservice.client.VodClient;
 import com.atguigu.eduservice.entity.EduChapter;
 import com.atguigu.eduservice.entity.EduCourse;
 import com.atguigu.eduservice.entity.EduCourseDescription;
@@ -21,6 +22,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import lombok.val;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.BeansException;
 import org.springframework.stereotype.Service;
@@ -57,7 +59,8 @@ public class EduCourseServiceImpl extends ServiceImpl<EduCourseMapper, EduCourse
     private EduVideoService eduVideoService;
     @Resource
     private EduChapterService eduChapterService;
-
+    @Resource
+    private VodClient vodClient;
 
     @Override
     public R addCourseInfo(CourseInfoVO courseInfoVO) {
@@ -67,25 +70,24 @@ public class EduCourseServiceImpl extends ServiceImpl<EduCourseMapper, EduCourse
         String courseId = "";
 
 
-            try {
-                eduCourse = new EduCourse();
-                BeanUtils.copyProperties(courseInfoVO, eduCourse);
-                insertCourse = baseMapper.insert(eduCourse);
-            } catch (Exception e) {
-                e.printStackTrace();
-                throw new GuLiException(20001, "保存课程信息出错了:(");
-            }
-            courseId = eduCourse.getId();
-            try {
-                EduCourseDescription eduCourseDescription = new EduCourseDescription();
-                BeanUtils.copyProperties(courseInfoVO, eduCourseDescription);
-                eduCourseDescription.setId(courseId);
-                insertCourseDesc = eduCourseDescriptionMapper.insert(eduCourseDescription);
-            } catch (Exception e) {
-                e.printStackTrace();
-                throw new GuLiException(20002, "保存课程描述信息出错了:(");
-            }
-
+        try {
+            eduCourse = new EduCourse();
+            BeanUtils.copyProperties(courseInfoVO, eduCourse);
+            insertCourse = baseMapper.insert(eduCourse);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new GuLiException(20001, "保存课程信息出错了:(");
+        }
+        courseId = eduCourse.getId();
+        try {
+            EduCourseDescription eduCourseDescription = new EduCourseDescription();
+            BeanUtils.copyProperties(courseInfoVO, eduCourseDescription);
+            eduCourseDescription.setId(courseId);
+            insertCourseDesc = eduCourseDescriptionMapper.insert(eduCourseDescription);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new GuLiException(20002, "保存课程描述信息出错了:(");
+        }
 
 
         return (insertCourse + insertCourseDesc) >= 2 ? R.ok().data("courseId", courseId) : R.error();
@@ -157,11 +159,18 @@ public class EduCourseServiceImpl extends ServiceImpl<EduCourseMapper, EduCourse
         try {
             //根据课程id删除小节
             LambdaQueryWrapper<EduVideo> lambdaEduvideo = new QueryWrapper<EduVideo>().lambda();
-            lambdaEduvideo.select(EduVideo::getId).eq(EduVideo::getCourseId, id);
+            lambdaEduvideo.select(EduVideo::getId, EduVideo::getVideoSourceId).eq(EduVideo::getCourseId, id);
             List<EduVideo> listEduvideo = eduVideoService.list(lambdaEduvideo);
+            List<String> listVideoAliynIds = new ArrayList<>();
             List<String> listEduVideoIds = new ArrayList<>();
+
             listEduvideo.stream().forEach(eduVideo -> listEduVideoIds.add(eduVideo.getId()));
+
+            listEduvideo.stream().forEach(eduVideo -> listVideoAliynIds.add(eduVideo.getVideoSourceId()));
+
             boolean resDeleEduVideo = eduVideoService.removeByIds(listEduVideoIds);
+            //删除阿里云视频
+//            vodClient.deleteVideo()
 
             //根据课程id删除章节
             LambdaQueryWrapper<EduChapter> lambdaEduChapter = new QueryWrapper<EduChapter>().lambda();
