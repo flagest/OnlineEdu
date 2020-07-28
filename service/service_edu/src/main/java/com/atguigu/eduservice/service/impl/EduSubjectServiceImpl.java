@@ -14,8 +14,11 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.BufferedInputStream;
@@ -32,10 +35,11 @@ import java.util.List;
  * @author zhengWu
  * @since 2020-07-15
  */
-@Slf4j
-@Service
-public class EduSubjectServiceImpl extends ServiceImpl<EduSubjectMapper, EduSubject> implements EduSubjectService {
 
+@Service
+@Transactional(rollbackFor = Exception.class)
+public class EduSubjectServiceImpl extends ServiceImpl<EduSubjectMapper, EduSubject> implements EduSubjectService {
+private static final Logger LOGGER = LoggerFactory.getLogger(EduSubjectServiceImpl.class);
     @Override
     public R saveSubject(MultipartFile file, EduSubjectService subjectService) {
         try {
@@ -55,7 +59,7 @@ public class EduSubjectServiceImpl extends ServiceImpl<EduSubjectMapper, EduSubj
         long startTime = System.currentTimeMillis();
         List<EduSubject> EduSubjects = baseMapper.selectList(null);
         List<OneSubject> listSub = findListSub(EduSubjects);
-        log.info("执行时间为[{}]ms!", System.currentTimeMillis() - startTime);
+        LOGGER.info("执行时间为[{}]ms!", System.currentTimeMillis() - startTime);
         return listSub;
     }
 

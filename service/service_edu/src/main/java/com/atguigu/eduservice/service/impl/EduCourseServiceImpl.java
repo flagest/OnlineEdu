@@ -27,6 +27,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.BeansException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ValidationUtils;
@@ -37,6 +38,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * <p>
@@ -104,7 +106,8 @@ public class EduCourseServiceImpl extends ServiceImpl<EduCourseMapper, EduCourse
 
         //2 查询描述表
         EduCourseDescription courseDescription = eduCourseDescriptionService.getById(courseId);
-        courseInfoVo.setDescription(courseDescription.getDescription());
+        if (!StringUtils.isEmpty(courseDescription))
+            courseInfoVo.setDescription(courseDescription.getDescription());
 
         return courseInfoVo;
     }
@@ -164,14 +167,32 @@ public class EduCourseServiceImpl extends ServiceImpl<EduCourseMapper, EduCourse
             List<String> listVideoAliynIds = new ArrayList<>();
             List<String> listEduVideoIds = new ArrayList<>();
 
-            listEduvideo.stream().forEach(eduVideo -> listEduVideoIds.add(eduVideo.getId()));
-
-            listEduvideo.stream().forEach(eduVideo -> listVideoAliynIds.add(eduVideo.getVideoSourceId()));
+            listEduvideo.stream().forEach((EduVideo eduVideo) -> {
+                listEduVideoIds.add(eduVideo.getId());
+                String videoSourceId = eduVideo.getVideoSourceId();
+                if (!StringUtils.isEmpty(videoSourceId))
+                    listVideoAliynIds.add(videoSourceId);
+            });
 
             boolean resDeleEduVideo = eduVideoService.removeByIds(listEduVideoIds);
-            //删除阿里云视频
-//            vodClient.deleteVideo()
+          /*
+           方法一集合转为String
+           StringBuilder sb = new StringBuilder();
+            listVideoAliynIds.stream().forEach((String aliyunVideId) -> {
+                sb.append(aliyunVideId).append(",");
+            });
+              //删除阿里云视频
+            R r = vodClient.deleteVideo(sb.substring(0, sb.length() - 1));
+            */
+            //方法二集合转为String1
+            String stringAliyunIds = org.apache.commons.lang.StringUtils.join(listVideoAliynIds.toArray(), ",");
 
+            //删除阿里云视频
+            if (!StringUtils.isEmpty(stringAliyunIds)) {
+                R r = vodClient.deleteVideo(stringAliyunIds);
+                if (!r.isSuccess())
+                    throw new GuLiException(20001, "删除阿里云视频失败:(");
+            }
             //根据课程id删除章节
             LambdaQueryWrapper<EduChapter> lambdaEduChapter = new QueryWrapper<EduChapter>().lambda();
             lambdaEduChapter.select(EduChapter::getId).eq(EduChapter::getCourseId, id);

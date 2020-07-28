@@ -5,6 +5,7 @@ import com.atguigu.eduservice.mapper.EduCourseDescriptionMapper;
 import com.atguigu.eduservice.service.EduCourseDescriptionService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * <p>
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Service;
  * @since 2020-07-18
  */
 @Service
+@Transactional(rollbackFor = Exception.class)
 public class EduCourseDescriptionServiceImpl extends ServiceImpl<EduCourseDescriptionMapper, EduCourseDescription> implements EduCourseDescriptionService {
 
 }

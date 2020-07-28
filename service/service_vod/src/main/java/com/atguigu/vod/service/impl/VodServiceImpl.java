@@ -65,7 +65,7 @@ public class VodServiceImpl implements VodService {
             requestId = response.getRequestId();
         } catch (Exception e) {
             e.printStackTrace();
-            throw new GuLiException(20001, "删除视频出错了:(");
+            throw new GuLiException(20001, "删除阿里云视频出错了:(");
         }
         LOGGER.info("请求Id为  " + requestId);
         return R.ok();

@@ -16,6 +16,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
@@ -30,6 +31,7 @@ import java.util.List;
  * @since 2020-07-18
  */
 @Service
+@Transactional(rollbackFor = Exception.class)
 public class EduChapterServiceImpl extends ServiceImpl<EduChapterMapper, EduChapter> implements EduChapterService {
 
     @Autowired
@@ -97,8 +99,8 @@ public class EduChapterServiceImpl extends ServiceImpl<EduChapterMapper, EduChap
         int countResult = videoService.count(laQwper);
         if (countResult > 0)
             throw new GuLiException(20001, "章节中有小节不能删除:(");
-//        int resut = eduVideoMapper.deleteById(chapterId);
-        int result = baseMapper.deleteById(chapterId);
+        int result = eduVideoMapper.deleteById(chapterId);
+//        int result = baseMapper.deleteById(chapterId);
 
         return result > 0 ? R.ok() : R.error();
 
