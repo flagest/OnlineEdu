@@ -31,7 +31,8 @@ public class BannerFrontController {
 
     @GetMapping("getFrontBanners")
     public R getFrontBanner() {
-        return bannerFrontService.selectList();
+        List<CrmBanner> crmBanners = bannerFrontService.selectList();
+        return R.ok().data("bannerList", crmBanners);
     }
 
 }

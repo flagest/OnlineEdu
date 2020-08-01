@@ -2,9 +2,12 @@ package com.atguigu.eduservice.service.impl;
 
 import com.atguigu.commonutils.R;
 import com.atguigu.eduservice.emnu.ResultEnum;
+import com.atguigu.eduservice.entity.EduCourse;
 import com.atguigu.eduservice.entity.EduTeacher;
+import com.atguigu.eduservice.mapper.EduCourseMapper;
 import com.atguigu.eduservice.mapper.EduTeacherMapper;
 import com.atguigu.eduservice.service.EduTeacherService;
+import com.atguigu.eduservice.vo.CoursesAndTeachersVO;
 import com.atguigu.eduservice.vo.TeacherQuery;
 import com.atguigu.servicebase.exceptionhandler.GuLiException;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
@@ -17,6 +20,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.Validate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -41,6 +45,8 @@ import java.util.Map;
 public class EduTeacherServiceImpl extends ServiceImpl<EduTeacherMapper, EduTeacher> implements EduTeacherService {
     @Resource
     private EduTeacherMapper eduTeacherMapper;
+    @Resource
+    private EduCourseMapper eduCourseMapper;
 
     @Override
     public R pageCondition(long current, long limit, TeacherQuery teacherQuery) {
@@ -81,7 +87,7 @@ public class EduTeacherServiceImpl extends ServiceImpl<EduTeacherMapper, EduTeac
     }
 
     @Override
-    @CacheEvict(value = "coursesAndTeachers",allEntries = true)
+    @CacheEvict(value = "coursesAndTeachers", allEntries = true)
     public R saveTeacherMessage(EduTeacher teacher) {
         if (teacher.getName() == null || "".equals(teacher.getName()))
             throw new GuLiException(ResultEnum.NAME_NOTNULL.code(), ResultEnum.NAME_NOTNULL.message());
@@ -94,6 +100,21 @@ public class EduTeacherServiceImpl extends ServiceImpl<EduTeacherMapper, EduTeac
             log.info("保存讲师信息失败！" + "讲师姓名" + teacher.getName() + "已重复");
             throw new GuLiException(104, "讲师姓名  " + teacher.getName() + "  已重复");
         }
+    }
+
+    @Override
+    @Cacheable(key = "'coursesAndTeachers'", value = "coursesAndTeachersVO")
+    public CoursesAndTeachersVO getTeachersAndCourses() {
+        //返回前8个讲师
+        LambdaQueryWrapper<EduCourse> laWraEduCourse = new LambdaQueryWrapper<>();
+        laWraEduCourse.orderByDesc(EduCourse::getId).last("limit 8");
+        //返回前4个课程
+        LambdaQueryWrapper<EduTeacher> laWraEduTeacher = new LambdaQueryWrapper<>();
+        laWraEduTeacher.orderByDesc(EduTeacher::getId).last("limit 4");
+        CoursesAndTeachersVO coursesAndTeachersVO = new CoursesAndTeachersVO();
+        coursesAndTeachersVO.setCourseList(eduCourseMapper.selectList(laWraEduCourse));
+        coursesAndTeachersVO.setTeacherList(eduTeacherMapper.selectList(laWraEduTeacher));
+        return coursesAndTeachersVO;
     }
 
 

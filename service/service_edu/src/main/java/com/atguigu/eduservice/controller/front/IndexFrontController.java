@@ -30,23 +30,12 @@ public class IndexFrontController {
     @Resource
     private EduTeacherService eduTeacherService;
 
-    @Resource
-    private EduCourseService eduCourseService;
-
 
     @GetMapping("index")
-    @Cacheable(key = "'coursesAndTeachers'", value = "coursesAndTeachersVO")
+
     @ApiOperation(value = "返回前8个讲师和返回前4个课程")
     public R getTeachersAndCourses() {
-        //返回前8个讲师
-        LambdaQueryWrapper<EduCourse> laWraEduCourse = new LambdaQueryWrapper<>();
-        laWraEduCourse.orderByDesc(EduCourse::getId).last("limit 8");
-        //返回前4个课程
-        LambdaQueryWrapper<EduTeacher> laWraEduTeacher = new LambdaQueryWrapper<>();
-        laWraEduTeacher.orderByDesc(EduTeacher::getId).last("limit 4");
-        CoursesAndTeachersVO coursesAndTeachersVO = new CoursesAndTeachersVO();
-        coursesAndTeachersVO.setCourseList(eduCourseService.list(laWraEduCourse));
-        coursesAndTeachersVO.setTeacherList(eduTeacherService.list(laWraEduTeacher));
+        CoursesAndTeachersVO coursesAndTeachersVO = eduTeacherService.getTeachersAndCourses();
         return R.ok().data("coursesAndTeachersVO", coursesAndTeachersVO);
     }
 }

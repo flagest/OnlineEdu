@@ -2,6 +2,7 @@ package com.atguigu.eduservice.service;
 
 import com.atguigu.commonutils.R;
 import com.atguigu.eduservice.entity.EduTeacher;
+import com.atguigu.eduservice.vo.CoursesAndTeachersVO;
 import com.atguigu.eduservice.vo.TeacherQuery;
 import com.baomidou.mybatisplus.extension.service.IService;
 
@@ -39,6 +40,14 @@ public interface EduTeacherService extends IService<EduTeacher> {
      * @retrun
      */
     public R saveTeacherMessage(EduTeacher teacher);
+
+    /**
+     * @param * @param null
+     * @Date:22:02 2020/8/1 0001
+     * @Description:前台前端页面要求返回结果为8个降序排列的课程4位降序排列的教师
+     * @retrun
+     */
+    public CoursesAndTeachersVO getTeachersAndCourses();
 
 
 }
