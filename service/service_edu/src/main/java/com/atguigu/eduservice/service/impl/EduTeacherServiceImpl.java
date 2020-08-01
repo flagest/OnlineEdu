@@ -16,6 +16,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.Validate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -80,6 +81,7 @@ public class EduTeacherServiceImpl extends ServiceImpl<EduTeacherMapper, EduTeac
     }
 
     @Override
+    @CacheEvict(value = "coursesAndTeachers",allEntries = true)
     public R saveTeacherMessage(EduTeacher teacher) {
         if (teacher.getName() == null || "".equals(teacher.getName()))
             throw new GuLiException(ResultEnum.NAME_NOTNULL.code(), ResultEnum.NAME_NOTNULL.message());
@@ -93,4 +95,6 @@ public class EduTeacherServiceImpl extends ServiceImpl<EduTeacherMapper, EduTeac
             throw new GuLiException(104, "讲师姓名  " + teacher.getName() + "  已重复");
         }
     }
+
+
 }

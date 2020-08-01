@@ -1,8 +1,8 @@
 server:
-  port: 8001
+  port: 8004
 spring:
   application:
-    name: service-edu
+    name: service-educms
   profiles:
     active: dev #这是环境配置有dev  test  prod
     #配置数据连接
@@ -30,6 +30,10 @@ spring:
         max-wait: -1  #最大阻塞等待时间（负数表示没有限制）
         max-idle: 5
         min-idle: 0
+
+
+
+
       #mp日志
 mybatis-plus:
   mapper-locations: classpath:mappers/*.xml  #mp的扫描xml路径配置
@@ -41,4 +45,3 @@ mybatis-plus:
 feign:
   hystrix:
     enabled: true  #true表示开启熔断器
-

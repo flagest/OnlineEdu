@@ -10,6 +10,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
@@ -64,6 +65,7 @@ public class EduCourseController {
     //课程最终发布，修改课程状态
     @PostMapping("publishCourse/{id}")
     @ApiOperation(value = "课程最终发布，修改课程状态")
+    @CacheEvict(value = "coursesAndTeachers", allEntries = true)
     public R publishCourse(@PathVariable String id) {
         EduCourse eduCourse = new EduCourse();
         eduCourse.setId(id);

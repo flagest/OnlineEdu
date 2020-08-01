@@ -14,6 +14,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.annotations.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
@@ -76,9 +77,9 @@ public class EduTeacherController {
 
     }
 
-
-    @ApiOperation(value = "新增讲师")
     @PostMapping("addTeacher")
+    @ApiOperation(value = "新增讲师")
+    @CacheEvict(value = "coursesAndTeachers", allEntries = true)
     public R save(@ApiParam(name = "teacher", value = "讲师对象", required = true) @RequestBody EduTeacher teacher) {
         return eduTeacherService.saveTeacherMessage(teacher);
     }
@@ -91,9 +92,10 @@ public class EduTeacherController {
         return R.ok().data("item", teacher);
     }
 
-    @ApiOperation(value = "更具id讲师修改功能")
     @PostMapping("updateTeacher")
+    @ApiOperation(value = "更具id讲师修改功能")
+    @CacheEvict(value = "coursesAndTeachers", allEntries = true)
     public R modeifyTeacher(@RequestBody(required = true) EduTeacher teacher) {
-        return eduTeacherService.updateById(teacher) ? R.ok() : R.error();
+        return eduTeacherService.updateById(teacher)?R.ok():R.error();
     }
 }

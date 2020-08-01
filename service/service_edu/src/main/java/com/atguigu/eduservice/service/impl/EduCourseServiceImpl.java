@@ -25,6 +25,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.val;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.BeansException;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
@@ -65,6 +66,7 @@ public class EduCourseServiceImpl extends ServiceImpl<EduCourseMapper, EduCourse
     private VodClient vodClient;
 
     @Override
+    @CacheEvict(value = "coursesAndTeachers",allEntries = true)
     public R addCourseInfo(CourseInfoVO courseInfoVO) {
         int insertCourse = 0;
         int insertCourseDesc = 0;
@@ -90,8 +92,6 @@ public class EduCourseServiceImpl extends ServiceImpl<EduCourseMapper, EduCourse
             e.printStackTrace();
             throw new GuLiException(20002, "保存课程描述信息出错了:(");
         }
-
-
         return (insertCourse + insertCourseDesc) >= 2 ? R.ok().data("courseId", courseId) : R.error();
     }
 
@@ -114,6 +114,7 @@ public class EduCourseServiceImpl extends ServiceImpl<EduCourseMapper, EduCourse
 
     //修改课程信息
     @Override
+    @CacheEvict(value = "coursesAndTeachers",allEntries = true)
     public void updateCourseInfo(CourseInfoVO courseInfoVo) {
         //1 修改课程表
         EduCourse eduCourse = new EduCourse();
