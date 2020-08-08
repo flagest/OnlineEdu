@@ -43,8 +43,8 @@ public class MsmServiceImpl implements MsmService {
         if (StringUtils.isEmpty(phone)) return R.error().message("验证码为空:(");
 
         DefaultProfile profile =
-                DefaultProfile.getProfile("default", "*****"
-                        , "******");
+                DefaultProfile.getProfile("default", "*"
+                        , "*");
         IAcsClient client = new DefaultAcsClient(profile);
 
         //设置关键参数
@@ -79,9 +79,11 @@ public class MsmServiceImpl implements MsmService {
         String redisCode = (String) redisTemplate.opsForValue().get(phone);
         LOGGER.info(redisCode + " Rdis中存储的Code是！！");
         if (!StringUtils.isEmpty(redisCode)) {
-            if (code.equals(redisCode))
-                return R.ok();
-            return R.error().message("验证码错误:(");
+            if (!code.equals(redisCode))
+                return R.error().message("验证码错误:(");
+            Boolean delteResult = redisTemplate.delete(phone);
+            return delteResult ? R.ok() : R.error().message("验证验证码成功后删除验证码失败:(");
+//            return R.ok();
         }
         return R.error().message("请重新申请验证码");
     }

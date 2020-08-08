@@ -4,16 +4,14 @@ import com.atguigu.commonutils.R;
 import com.atguigu.msmservice.service.MsmService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 
 /**
  * @author wu on 2020/8/4 000
  */
+@CrossOrigin
 @RestController
 @RequestMapping("/edumsm/msm")
 @Api(description = "发送短信接口")

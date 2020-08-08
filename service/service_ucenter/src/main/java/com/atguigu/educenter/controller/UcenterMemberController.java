@@ -22,9 +22,10 @@ import javax.servlet.http.HttpServletRequest;
  * @author zhengWu
  * @since 2020-08-05
  */
-@RestController
 @CrossOrigin
-@RequestMapping("/educenter/member")
+@RestController
+//@RequestMapping("/educenter/member")
+@RequestMapping("/api/ucenter/member")
 @Api(description = "用户登录，注册接口")
 public class UcenterMemberController {
 

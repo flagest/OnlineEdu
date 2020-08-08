@@ -64,7 +64,11 @@ public class UcenterMemberServiceImpl extends ServiceImpl<UcenterMemberMapper, U
     @Override
     public R findMemberInfo(HttpServletRequest request) {
         String memberId = JwtUtils.getMemberIdByJwtToken(request);
-        UcenterMember ucenterMember = ucenterMemberMapper.selectById(memberId);
+        LambdaQueryWrapper<UcenterMember> laQueryWarpUceter = new QueryWrapper<UcenterMember>().lambda();
+        laQueryWarpUceter.select(UcenterMember::getSex,UcenterMember::getAvatar,UcenterMember::getAge,
+                UcenterMember::getId, UcenterMember::getNickname,UcenterMember::getMobile)
+                .eq(UcenterMember::getId, memberId);
+        UcenterMember ucenterMember = ucenterMemberMapper.selectOne(laQueryWarpUceter);
         if (StringUtils.isEmpty(ucenterMember))
             throw new GuLiException(20001, "该用户没有注册:(");
         return R.ok().data("userInfo", ucenterMember);

@@ -1,5 +1,5 @@
 server:
-  port: 8006
+  port: 8150
 spring:
   application:
     name: service-ucenter
@@ -36,3 +36,8 @@ mybatis-plus:
 feign:
   hystrix:
     enabled: true
+wx:
+ open:
+  app_id: wxed9954c01bb89b47 # 微信开发平台appid
+  app_secret: a7482517235173ddb4083788de60b90e #微信开发平台的apperct
+  redirect_url: http://guli.shop/api/ucenter/wx/callback #微信开发平台的从定向URL
