@@ -16,6 +16,7 @@ import com.atguigu.eduservice.utils.ValidationUtil;
 import com.atguigu.eduservice.vo.CourseInfoVO;
 import com.atguigu.eduservice.vo.CoursePublishVO;
 import com.atguigu.eduservice.vo.CourseSerachVO;
+import com.atguigu.eduservice.vo.frontvo.CourseFrontVO;
 import com.atguigu.servicebase.exceptionhandler.GuLiException;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -38,6 +39,7 @@ import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -66,7 +68,7 @@ public class EduCourseServiceImpl extends ServiceImpl<EduCourseMapper, EduCourse
     private VodClient vodClient;
 
     @Override
-    @CacheEvict(value = "coursesAndTeachers",allEntries = true)
+    @CacheEvict(value = "coursesAndTeachers", allEntries = true)
     public R addCourseInfo(CourseInfoVO courseInfoVO) {
         int insertCourse = 0;
         int insertCourseDesc = 0;
@@ -114,7 +116,7 @@ public class EduCourseServiceImpl extends ServiceImpl<EduCourseMapper, EduCourse
 
     //修改课程信息
     @Override
-    @CacheEvict(value = "coursesAndTeachers",allEntries = true)
+    @CacheEvict(value = "coursesAndTeachers", allEntries = true)
     public void updateCourseInfo(CourseInfoVO courseInfoVo) {
         //1 修改课程表
         EduCourse eduCourse = new EduCourse();
@@ -212,5 +214,26 @@ public class EduCourseServiceImpl extends ServiceImpl<EduCourseMapper, EduCourse
             throw new GuLiException(20001, "删除课程中出错:(");
         }
         return R.ok();
+    }
+
+    @Override
+    public R getFrontCourseList(long page, long limit, CourseFrontVO courseFrontVO) {
+        Page<EduCourse> coursePages = new Page<>(page, limit);
+        LambdaQueryWrapper<EduCourse> laQueryEduCourse = new LambdaQueryWrapper<>();
+        laQueryEduCourse.eq(!StringUtils.isEmpty(courseFrontVO.getSubjectParentId()), EduCourse::getSubjectParentId, courseFrontVO.getSubjectParentId())
+                .eq(!StringUtils.isEmpty(courseFrontVO.getSubjectId()), EduCourse::getSubjectId, courseFrontVO.getSubjectId())
+                .orderByDesc(!StringUtils.isEmpty(courseFrontVO.getBuyCountSort()), EduCourse::getBuyCount)
+                .orderByDesc(!StringUtils.isEmpty(courseFrontVO.getGmtCreateSort()), EduCourse::getGmtCreate)
+                .orderByDesc(!StringUtils.isEmpty(courseFrontVO.getPriceSort()), EduCourse::getPrice);
+        IPage<EduCourse> eduCourseIPage = eduCourseMapper.selectPage(coursePages, laQueryEduCourse);
+        Map<String, Object> mapTeachers = new HashMap<>();
+        mapTeachers.put("items", coursePages.getRecords());
+        mapTeachers.put("current", coursePages.getCurrent());
+        mapTeachers.put("total", coursePages.getTotal());
+        mapTeachers.put("size", coursePages.getSize());
+        mapTeachers.put("pages", coursePages.getPages());
+        mapTeachers.put("hasPrevious", coursePages.hasPrevious());
+        mapTeachers.put("next", coursePages.hasNext());
+        return R.ok().data(mapTeachers);
     }
 }

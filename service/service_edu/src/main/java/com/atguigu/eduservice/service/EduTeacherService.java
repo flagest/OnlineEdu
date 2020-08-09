@@ -50,4 +50,7 @@ public interface EduTeacherService extends IService<EduTeacher> {
     public CoursesAndTeachersVO getTeachersAndCourses();
 
 
+    R selectByPage(long page, long limit);
+
+    R getTeacherInfo(String teacherId);
 }

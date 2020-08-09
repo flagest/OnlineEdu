@@ -29,6 +29,7 @@ import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -115,6 +116,47 @@ public class EduTeacherServiceImpl extends ServiceImpl<EduTeacherMapper, EduTeac
         coursesAndTeachersVO.setCourseList(eduCourseMapper.selectList(laWraEduCourse));
         coursesAndTeachersVO.setTeacherList(eduTeacherMapper.selectList(laWraEduTeacher));
         return coursesAndTeachersVO;
+    }
+
+    @Override
+    public R selectByPage(long page, long limit) {
+        LambdaQueryWrapper<EduTeacher> laQueryEduTeacher = new QueryWrapper<EduTeacher>().lambda();
+        laQueryEduTeacher.orderByDesc(EduTeacher::getId).select(EduTeacher::getId
+                , EduTeacher::getName, EduTeacher::getIntro, EduTeacher::getCareer
+                , EduTeacher::getAvatar);
+        Page<EduTeacher> eduTeacherPage = new Page<>(page, limit);
+        eduTeacherMapper.selectPage(eduTeacherPage, laQueryEduTeacher);
+        Map<String, Object> mapTeachers = new HashMap<>();
+        mapTeachers.put("items", eduTeacherPage.getRecords());
+        mapTeachers.put("current", eduTeacherPage.getCurrent());
+        mapTeachers.put("total", eduTeacherPage.getTotal());
+        mapTeachers.put("size", eduTeacherPage.getSize());
+        mapTeachers.put("pages", eduTeacherPage.getPages());
+        mapTeachers.put("hasPrevious", eduTeacherPage.hasPrevious());
+        mapTeachers.put("next", eduTeacherPage.hasNext());
+        return R.ok().data(mapTeachers);
+    }
+
+    @Override
+    public R getTeacherInfo(String teacherId) {
+        LambdaQueryWrapper<EduTeacher> laQueryTeacher = new QueryWrapper<EduTeacher>().lambda();
+        laQueryTeacher.eq(EduTeacher::getId, teacherId)
+                .select(EduTeacher.class, info -> !info.getColumn().equals("gmt_create")
+                        && !info.getColumn().equals("gmt_modified")
+                        && !info.getColumn().equals("is_deleted")
+                        && !info.getColumn().equals("sort"));
+        EduTeacher eduTeacher = eduTeacherMapper.selectOne(laQueryTeacher);
+        if (StringUtils.isEmpty(eduTeacher))
+            throw new GuLiException(20001, "没有该讲师信息:(");
+        LambdaQueryWrapper<EduCourse> laQueryCourse = new QueryWrapper<EduCourse>().lambda();
+        laQueryCourse.eq(EduCourse::getTeacherId, eduTeacher.getId()).select(EduCourse.class,
+                info -> !info.getColumn().equals("gmt_create")
+                        && !info.getColumn().equals("gmt_modified")
+                        && !info.getColumn().equals("is_deleted")
+                        && !info.getColumn().equals("status")
+                        && !info.getColumn().equals("version"));
+        List<EduCourse> eduCourseList = eduCourseMapper.selectList(laQueryCourse);
+        return R.ok().data("eduTeacher", eduTeacher).data("courseList", eduCourseList);
     }
 
 
