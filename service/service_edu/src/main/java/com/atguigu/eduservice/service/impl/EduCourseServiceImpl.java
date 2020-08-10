@@ -220,7 +220,8 @@ public class EduCourseServiceImpl extends ServiceImpl<EduCourseMapper, EduCourse
     public R getFrontCourseList(long page, long limit, CourseFrontVO courseFrontVO) {
         Page<EduCourse> coursePages = new Page<>(page, limit);
         LambdaQueryWrapper<EduCourse> laQueryEduCourse = new LambdaQueryWrapper<>();
-        laQueryEduCourse.eq(!StringUtils.isEmpty(courseFrontVO.getSubjectParentId()), EduCourse::getSubjectParentId, courseFrontVO.getSubjectParentId())
+        laQueryEduCourse
+                .eq(!StringUtils.isEmpty(courseFrontVO.getSubjectParentId()), EduCourse::getSubjectParentId, courseFrontVO.getSubjectParentId())
                 .eq(!StringUtils.isEmpty(courseFrontVO.getSubjectId()), EduCourse::getSubjectId, courseFrontVO.getSubjectId())
                 .orderByDesc(!StringUtils.isEmpty(courseFrontVO.getBuyCountSort()), EduCourse::getBuyCount)
                 .orderByDesc(!StringUtils.isEmpty(courseFrontVO.getGmtCreateSort()), EduCourse::getGmtCreate)
