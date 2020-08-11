@@ -32,4 +32,6 @@ public interface EduCourseService extends IService<EduCourse> {
     R coursesAndOthers(String id);
 
     R getFrontCourseList(long page, long limit, CourseFrontVO courseFrontVO);
+
+    void getBaseCourseInfo(String courseId);
 }

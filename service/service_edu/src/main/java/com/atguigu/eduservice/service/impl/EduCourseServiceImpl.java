@@ -237,4 +237,9 @@ public class EduCourseServiceImpl extends ServiceImpl<EduCourseMapper, EduCourse
         mapTeachers.put("next", coursePages.hasNext());
         return R.ok().data(mapTeachers);
     }
+
+    @Override
+    public void getBaseCourseInfo(String courseId) {
+
+    }
 }
