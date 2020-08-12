@@ -13,10 +13,12 @@ import com.atguigu.eduservice.service.EduCourseDescriptionService;
 import com.atguigu.eduservice.service.EduCourseService;
 import com.atguigu.eduservice.service.EduVideoService;
 import com.atguigu.eduservice.utils.ValidationUtil;
+import com.atguigu.eduservice.vo.ChapterVO;
 import com.atguigu.eduservice.vo.CourseInfoVO;
 import com.atguigu.eduservice.vo.CoursePublishVO;
 import com.atguigu.eduservice.vo.CourseSerachVO;
 import com.atguigu.eduservice.vo.frontvo.CourseFrontVO;
+import com.atguigu.eduservice.vo.frontvo.CourseWebVO;
 import com.atguigu.servicebase.exceptionhandler.GuLiException;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -66,6 +68,7 @@ public class EduCourseServiceImpl extends ServiceImpl<EduCourseMapper, EduCourse
     private EduChapterService eduChapterService;
     @Resource
     private VodClient vodClient;
+
 
     @Override
     @CacheEvict(value = "coursesAndTeachers", allEntries = true)
@@ -239,7 +242,10 @@ public class EduCourseServiceImpl extends ServiceImpl<EduCourseMapper, EduCourse
     }
 
     @Override
-    public void getBaseCourseInfo(String courseId) {
-
+    public R getCoursesInfo(String courseId) {
+        CourseWebVO courseWebVO= eduCourseMapper.getBaseCourseInfo(courseId);
+        List<ChapterVO> chapterVideoList = eduChapterService.getChapterVideoByCourseId(courseId);
+        return R.ok().data("courseWebVO", courseWebVO).data("chapterVideoList", chapterVideoList);
     }
+
 }

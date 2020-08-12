@@ -30,4 +30,40 @@
             </if>
         </where>
     </select>
+
+    <!--更具课程id去查询课程信息-->
+    <select id="getBaseCourseInfo" resultType="com.atguigu.eduservice.vo.frontvo.CourseWebVO">
+        SELECT
+        ec.id,
+        ec.`title`,
+        ec.`price`,
+        ec.cover,
+        ec.`lesson_num`as lessonNum,
+        ec.`buy_count` as buyCount,
+        ec.`view_count`as viewCount,
+        ecd.`description`,
+        et.`name` AS teacherName,
+        et.`id`as teacherId,
+        et.intro,
+        et.avatar,
+        es1.`title` AS subjectLevelTwoId,
+        es1.`id` as subjectLevelOneId,
+        es2.`title` AS subjectLevelOne,
+        es2.`id`as subjectLevelTwo
+        FROM
+        edu_course ec
+        LEFT OUTER JOIN edu_course_description ecd
+        ON ec.id = ecd.`id`
+        LEFT OUTER JOIN edu_teacher et
+        ON ec.`teacher_id` = et.`id`
+        LEFT OUTER JOIN edu_subject es1
+        ON ec.`subject_id` = es1.`id`
+        LEFT OUTER JOIN edu_subject es2
+        ON ec.`subject_parent_id` = es2.`id`
+        <where>
+            <if test="courseId!=null and courseId!=''">
+                and ec.`id` = #{courseId}
+            </if>
+        </where>
+    </select>
 </mapper>

@@ -22,8 +22,7 @@ public class CourseFrontController {
     @Resource
     private EduCourseService eduCourseService;
 
-    @Resource
-    private EduChapterService chapterService;
+
 
     @PostMapping("/getFrontCourseList/{page}/{limit}")
     @ApiOperation(value = "前台前端页面更具多种条件查询课程信息")
@@ -36,10 +35,7 @@ public class CourseFrontController {
     @GetMapping("getFrontCourseInfo/{courseId}")
     @ApiOperation(value = "更具课程id去查询课程详情方法")
     public R getFrontCourseInfo(@PathVariable String courseId) {
-        eduCourseService.getBaseCourseInfo(courseId);
-        chapterService.getChapterVideoByCourseId(courseId);
-        return R.ok();
-
+        return eduCourseService.getCoursesInfo(courseId);
     }
 
 }
