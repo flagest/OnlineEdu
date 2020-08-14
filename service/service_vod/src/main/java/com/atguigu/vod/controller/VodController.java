@@ -31,4 +31,11 @@ public class VodController {
     public R deleteVideo(@PathVariable String videoSourceId) {
         return vodService.deleteVideoById(videoSourceId);
     }
+
+
+    @ApiOperation("更具视频id去查询播放凭证")
+    @GetMapping("getPlayAuth/{id}")
+    public R getPlayAuth(@PathVariable String id) {
+        return vodService.getPlayAuth(id);
+    }
 }

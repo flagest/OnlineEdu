@@ -46,10 +46,10 @@
         et.`id`as teacherId,
         et.intro,
         et.avatar,
-        es1.`title` AS subjectLevelTwoId,
+        es1.`title` AS subjectLevelTwo,
         es1.`id` as subjectLevelOneId,
         es2.`title` AS subjectLevelOne,
-        es2.`id`as subjectLevelTwo
+        es2.`id`as  subjectLevelTwoId
         FROM
         edu_course ec
         LEFT OUTER JOIN edu_course_description ecd

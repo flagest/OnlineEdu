@@ -12,4 +12,6 @@ public interface VodService {
     R uploadAlyiVideo(MultipartFile file);
 
     R deleteVideoById(String videoSourceId);
+
+    R getPlayAuth(String videoId);
 }

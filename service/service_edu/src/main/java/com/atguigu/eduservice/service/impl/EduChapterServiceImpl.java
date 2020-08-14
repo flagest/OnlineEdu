@@ -52,7 +52,8 @@ public class EduChapterServiceImpl extends ServiceImpl<EduChapterMapper, EduChap
 
         //2 根据课程id查询课程里面所有的小节
         LambdaQueryWrapper<EduVideo> laQWEduVideo = new QueryWrapper<EduVideo>().lambda();
-        laQWEduVideo.select(EduVideo::getId, EduVideo::getChapterId, EduVideo::getCourseId, EduVideo::getTitle)
+        laQWEduVideo.select(EduVideo::getId, EduVideo::getChapterId
+                , EduVideo::getCourseId, EduVideo::getTitle,EduVideo::getVideoSourceId)
                 .eq(EduVideo::getCourseId, courseId);
         List<EduVideo> eduVideoList = videoService.list(laQWEduVideo);
 

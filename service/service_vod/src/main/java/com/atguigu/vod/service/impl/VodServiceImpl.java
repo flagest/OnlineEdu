@@ -7,6 +7,8 @@ import com.aliyuncs.DefaultAcsClient;
 import com.aliyuncs.exceptions.ClientException;
 import com.aliyuncs.vod.model.v20170321.DeleteVideoRequest;
 import com.aliyuncs.vod.model.v20170321.DeleteVideoResponse;
+import com.aliyuncs.vod.model.v20170321.GetVideoPlayAuthRequest;
+import com.aliyuncs.vod.model.v20170321.GetVideoPlayAuthResponse;
 import com.atguigu.commonutils.R;
 import com.atguigu.servicebase.exceptionhandler.GuLiException;
 import com.atguigu.vod.service.VodService;
@@ -60,7 +62,8 @@ public class VodServiceImpl implements VodService {
     public R deleteVideoById(String videoSourceId) {
         String requestId = null;
         try {
-            DefaultAcsClient client = InitObject.initVodClient(ConstantProVodUtils.ACCESSKEY_ID, ConstantProVodUtils.ACCESSKEY_SECRET);
+            DefaultAcsClient client = InitObject.initVodClient(ConstantProVodUtils.ACCESSKEY_ID
+                    , ConstantProVodUtils.ACCESSKEY_SECRET);
             DeleteVideoResponse response = this.deleteVideo(client, videoSourceId);
             requestId = response.getRequestId();
         } catch (Exception e) {
@@ -69,6 +72,27 @@ public class VodServiceImpl implements VodService {
         }
         LOGGER.info("请求Id为  " + requestId);
         return R.ok();
+    }
+
+    @Override
+    public R getPlayAuth(String videoId) {
+        try {
+            //初始化对象
+            DefaultAcsClient client = InitObject.initVodClient(ConstantProVodUtils.ACCESSKEY_ID
+                    , ConstantProVodUtils.ACCESSKEY_SECRET);
+            //创建获取凭证，request和response对象
+            GetVideoPlayAuthRequest request = new GetVideoPlayAuthRequest();
+            //向request中设置id
+            request.setVideoId(videoId);
+            //调用方法获取凭证
+            GetVideoPlayAuthResponse response = client.getAcsResponse(request);
+            String playAuth = response.getPlayAuth();
+            LOGGER.info("视频的凭证是： "+playAuth);
+            return R.ok().data("playAuth", playAuth);
+        } catch (ClientException e) {
+            e.printStackTrace();
+            throw new GuLiException(20001, "获取视频凭证失败:(");
+        }
     }
 
     /**
