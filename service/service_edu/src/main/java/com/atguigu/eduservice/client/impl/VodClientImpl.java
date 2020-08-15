@@ -11,6 +11,6 @@ import org.springframework.stereotype.Component;
 public class VodClientImpl implements VodClient {
     @Override
     public R deleteVideo(String videoSourceId) {
-        return R.error().message("删除    视频微服务宕机了:(");
+        return R.error().message("删除视频微服务宕机了:(");
     }
 }
