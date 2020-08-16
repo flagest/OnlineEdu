@@ -63,8 +63,8 @@ public class EduCommentServiceImpl extends ServiceImpl<EduCommentMapper, EduComm
         if (StringUtils.isEmpty(eduComment.getCourseId()) || StringUtils.isEmpty(eduComment.getTeacherId()))
             throw new GuLiException(20001, "请传入课程或讲师信息:(");
         R memberInfo = ucenterClient.getMemberInfo(request);
-        if (!memberInfo.isSuccess())
-            throw new GuLiException(20001, "根据前端传入token获取用户信息失败:(");
+        /*if (!memberInfo.isSuccess())
+            throw new GuLiException(20001, "根据前端传入token获取用户信息失败:(");*/
         Map<String, Object> data = memberInfo.getData();
         UcenterMemberDTO ucenterMemberDTO = (UcenterMemberDTO) data.get("userInfo");
         //调用token方法获取用户信息

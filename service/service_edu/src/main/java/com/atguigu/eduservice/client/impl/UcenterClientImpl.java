@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 public class UcenterClientImpl implements UcenterClient {
     @Override
     public R getMemberInfo(HttpServletRequest request) {
+
         return R.error().message("根据前端传入token获取用户信息失败:(");
     }
 }
