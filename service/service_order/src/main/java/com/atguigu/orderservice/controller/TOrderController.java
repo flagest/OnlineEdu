@@ -38,6 +38,7 @@ public class TOrderController {
     }
 
     @GetMapping("/getOrderInfo/{orderId}")
+    @ApiOperation(value = "根据orderId订详细信息")
     public R getOrderInfo(@PathVariable String orderId) {
         LambdaQueryWrapper<TOrder> laQuerOrder = new LambdaQueryWrapper<>();
         laQuerOrder.eq(TOrder::getOrderNo, orderId);

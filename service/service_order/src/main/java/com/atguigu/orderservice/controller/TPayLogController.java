@@ -4,6 +4,7 @@ package com.atguigu.orderservice.controller;
 import com.atguigu.commonutils.R;
 import com.atguigu.orderservice.service.TPayLogService;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -26,15 +27,16 @@ public class TPayLogController {
     private TPayLogService logService;
 
     @GetMapping("/createPayLog/{orderNo}")
-    public R createPayLog (@PathVariable String orderNo){
+    @ApiOperation(value = "生成微信支付二维码接口")
+    public R createPayLog(@PathVariable String orderNo) {
         return logService.createPayLog(orderNo);
     }
 
     //根据订单号查询支付状态
     @GetMapping("/queryPayStatus/{orderNo}")
-    public R queryPayStatus(@PathVariable String orderNo){
+    @ApiOperation(value = "查询订单支付状态")
+    public R queryPayStatus(@PathVariable String orderNo) {
         return logService.queryPayStatus(orderNo);
-
     }
 }
 

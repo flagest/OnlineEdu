@@ -102,15 +102,15 @@ public class TPayLogServiceImpl extends ServiceImpl<TPayLogMapper, TPayLog> impl
             //6、转成Map
             //7、返回
             if (resultMap == null) {//出错
-                return R.error().message("支付出错");
+                return R.error().message("支付出错:(");
             }
             if (resultMap.get("trade_state").equals("SUCCESS")) {//如果成功
                 //更改订单状态
                 this.updateOrderStatus(resultMap);
-                return R.ok().message("支付成功");
+                return R.ok().message("支付成功:)");
             }
 
-            return R.ok().code(25000).message("支付中");
+            return R.ok().code(25000).message("支付中...");
 
         } catch (Exception e) {
             e.printStackTrace();
