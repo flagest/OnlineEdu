@@ -1,6 +1,8 @@
 package com.atguigu.eduservice.service.impl;
 
+import com.atguigu.commonutils.JwtUtils;
 import com.atguigu.commonutils.R;
+import com.atguigu.eduservice.client.OrderClient;
 import com.atguigu.eduservice.client.VodClient;
 import com.atguigu.eduservice.entity.EduChapter;
 import com.atguigu.eduservice.entity.EduCourse;
@@ -26,6 +28,8 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.val;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.BeansException;
 import org.springframework.cache.annotation.CacheEvict;
@@ -38,6 +42,7 @@ import org.springframework.validation.ValidationUtils;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -56,6 +61,7 @@ import java.util.stream.Stream;
 @Service
 @Transactional(rollbackFor = Exception.class)
 public class EduCourseServiceImpl extends ServiceImpl<EduCourseMapper, EduCourse> implements EduCourseService {
+    private static final Logger LOGGER = LoggerFactory.getLogger(EduCourseServiceImpl.class);
     @Resource
     private EduCourseDescriptionMapper eduCourseDescriptionMapper;
     @Resource
@@ -68,6 +74,9 @@ public class EduCourseServiceImpl extends ServiceImpl<EduCourseMapper, EduCourse
     private EduChapterService eduChapterService;
     @Resource
     private VodClient vodClient;
+
+    @Resource
+    private OrderClient orderClient;
 
 
     @Override
@@ -242,10 +251,14 @@ public class EduCourseServiceImpl extends ServiceImpl<EduCourseMapper, EduCourse
     }
 
     @Override
-    public R getCoursesInfo(String courseId) {
-        CourseWebVO courseWebVO= eduCourseMapper.getBaseCourseInfo(courseId);
+    public R getCoursesInfo(String courseId, HttpServletRequest request) {
+        CourseWebVO courseWebVO = eduCourseMapper.getBaseCourseInfo(courseId);
         List<ChapterVO> chapterVideoList = eduChapterService.getChapterVideoByCourseId(courseId);
-        return R.ok().data("courseWebVO", courseWebVO).data("chapterVideoList", chapterVideoList);
+        //根据课程id和用户id查询单前课程是否支付
+        boolean isBuy = orderClient.isBuyCourse(courseId, JwtUtils.getMemberIdByJwtToken(request));
+        LOGGER.info("isBuy"+isBuy);
+        return R.ok().data("courseWebVO", courseWebVO).data("chapterVideoList", chapterVideoList)
+                .data("isBuy", isBuy);
     }
 
 }

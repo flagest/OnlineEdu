@@ -47,5 +47,16 @@ public class TOrderController {
             throw new GuLiException(20001, "该订单信息不存在:(");
         return R.ok().data("item", tOrder);
     }
+
+    @GetMapping("/isBuyCourse/{courseId}/{memberId}")
+    @ApiOperation(value = "判读是否是购买课程")
+    public boolean isBuyCourse(@PathVariable String courseId, @PathVariable String memberId) {
+        LambdaQueryWrapper<TOrder> laQueryTorder = new LambdaQueryWrapper<>();
+        laQueryTorder.eq(TOrder::getCourseId, courseId)
+                .eq(TOrder::getMemberId, memberId)
+                .eq(TOrder::getStatus, 1);
+        int count = tOrderService.count(laQueryTorder);
+        return count > 0 ? true : false;
+    }
 }
 

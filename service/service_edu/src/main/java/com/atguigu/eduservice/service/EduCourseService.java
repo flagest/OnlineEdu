@@ -8,6 +8,8 @@ import com.atguigu.eduservice.vo.frontvo.CourseFrontVO;
 import com.baomidou.mybatisplus.extension.service.IService;
 import org.springframework.validation.BindingResult;
 
+import javax.servlet.http.HttpServletRequest;
+
 /**
  * <p>
  * 课程 服务类
@@ -34,5 +36,5 @@ public interface EduCourseService extends IService<EduCourse> {
     R getFrontCourseList(long page, long limit, CourseFrontVO courseFrontVO);
 
 
-    R getCoursesInfo(String courseId);
+    R getCoursesInfo(String courseId,HttpServletRequest request);
 }

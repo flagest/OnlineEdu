@@ -14,6 +14,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Map;
 
@@ -43,8 +44,8 @@ public class CourseFrontController {
 
     @GetMapping("getFrontCourseInfo/{courseId}")
     @ApiOperation(value = "更具课程id去查询课程详情方法")
-    public R getFrontCourseInfo(@PathVariable String courseId) {
-        return eduCourseService.getCoursesInfo(courseId);
+    public R getFrontCourseInfo(@PathVariable String courseId, HttpServletRequest request) {
+        return eduCourseService.getCoursesInfo(courseId,request);
     }
 
     //根据课程id查询课程信息
