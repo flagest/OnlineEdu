@@ -23,4 +23,6 @@ public interface UcenterMemberService extends IService<UcenterMember> {
     R findMemberInfo(HttpServletRequest request);
 
     R login(LoginVO loginVO);
+
+    int countRegister(String day);
 }

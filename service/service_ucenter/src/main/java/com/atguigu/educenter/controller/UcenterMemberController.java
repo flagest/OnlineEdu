@@ -62,5 +62,13 @@ public class UcenterMemberController {
         return ucenterMemberDTO;
     }
 
+    //查询某一天注册人数
+    @GetMapping("/countRegister/{day}")
+    @ApiOperation(value = "查询某一天注册人数")
+    public int countRegister(@PathVariable String day) {
+        return ucenterMemberService.countRegister(day);
+
+    }
+
 }
 

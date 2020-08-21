@@ -65,8 +65,8 @@ public class UcenterMemberServiceImpl extends ServiceImpl<UcenterMemberMapper, U
     public R findMemberInfo(HttpServletRequest request) {
         String memberId = JwtUtils.getMemberIdByJwtToken(request);
         LambdaQueryWrapper<UcenterMember> laQueryWarpUceter = new QueryWrapper<UcenterMember>().lambda();
-        laQueryWarpUceter.select(UcenterMember::getSex,UcenterMember::getAvatar,UcenterMember::getAge,
-                UcenterMember::getId, UcenterMember::getNickname,UcenterMember::getMobile)
+        laQueryWarpUceter.select(UcenterMember::getSex, UcenterMember::getAvatar, UcenterMember::getAge,
+                UcenterMember::getId, UcenterMember::getNickname, UcenterMember::getMobile)
                 .eq(UcenterMember::getId, memberId);
         UcenterMember ucenterMember = ucenterMemberMapper.selectOne(laQueryWarpUceter);
         if (StringUtils.isEmpty(ucenterMember))
@@ -90,5 +90,10 @@ public class UcenterMemberServiceImpl extends ServiceImpl<UcenterMemberMapper, U
             throw new GuLiException(20001, "用户密码错误:(");
         String jwtToken = JwtUtils.getJwtToken(ucenterMember.getId(), ucenterMember.getNickname());
         return R.ok().data("token", jwtToken);
+    }
+
+    @Override
+    public int countRegister(String day) {
+        return ucenterMemberMapper.countRegister(day);
     }
 }
