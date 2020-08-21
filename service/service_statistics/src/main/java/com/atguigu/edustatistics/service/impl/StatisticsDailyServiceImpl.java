@@ -5,6 +5,8 @@ import com.atguigu.edustatistics.client.UcentrClient;
 import com.atguigu.edustatistics.entity.StatisticsDaily;
 import com.atguigu.edustatistics.mapper.StatisticsDailyMapper;
 import com.atguigu.edustatistics.service.StatisticsDailyService;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.apache.commons.lang3.RandomUtils;
 import org.springframework.stereotype.Service;
@@ -29,6 +31,11 @@ public class StatisticsDailyServiceImpl extends ServiceImpl<StatisticsDailyMappe
 
     @Override
     public R registerCount(String day) {
+        LambdaQueryWrapper<StatisticsDaily> laQueryStatics = new QueryWrapper<StatisticsDaily>().lambda();
+        laQueryStatics.eq(StatisticsDaily::getDateCalculated, day);
+        statisticsDailyMapper.delete(laQueryStatics);
+
+
         int registerCount = statisticsClient.countRegister(day);
         StatisticsDaily statisticsDaily = new StatisticsDaily();
         statisticsDaily.setRegisterNum(registerCount);
