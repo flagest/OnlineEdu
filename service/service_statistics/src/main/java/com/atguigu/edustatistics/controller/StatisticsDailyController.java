@@ -27,8 +27,15 @@ public class StatisticsDailyController {
 
     @GetMapping("/registerCount/{day}")
     @ApiOperation(value = "在页面展示注册人数，并储存在统计表中")
-    public R registerCount(@PathVariable String day){
+    public R registerCount(@PathVariable String day) {
         return statisticsDailyService.registerCount(day);
+    }
+
+    @GetMapping("/showData/{type}/{begin}/{end}")
+    public R showData(@PathVariable String type, @PathVariable String begin
+            , @PathVariable String end) {
+        return statisticsDailyService.showData(type, begin, end);
+
     }
 
 }

@@ -16,4 +16,14 @@ public interface StatisticsDailyService extends IService<StatisticsDaily> {
 
     R registerCount(String day);
 
+    /**
+     * @param * @param null
+     * @Date:15:57 2020/8/22 0022
+     * @Description:每天凌晨一点钟做前一天的定时任务
+     * @retrun
+     */
+    boolean repatTask();
+
+    R showData(String type, String begin, String end);
+
 }
