@@ -1,8 +1,8 @@
 server:
-  port: 8001
+  port: 8222
 spring:
   application:
-    name: service-edu
+    name: service-gateway
   cloud:
     nacos:
       discovery:
@@ -11,6 +11,44 @@ spring:
       discovery:
         locator:
           enabled: true
-      routes[0].id: service-acl  #设置路由的id
-      routes[0].url:  lb://service-acl
-      routes[0].predicates:
+      routes:
+        - id: service-acl
+          uri: lb://service-acl
+          predicates:
+          - Path=/*/acl/** # 路径匹配
+        - id: service-edu
+          uri: lb://service-edu
+          predicates:
+          - Path=/eduservice/** # 路径匹配
+        - id: service-educms
+          uri: lb://service-educms
+          predicates:
+          - Path=/educms/** # 路径匹配
+        - id: service-msm
+          uri: lb://service-msm
+          predicates:
+          - Path=/edumsm/** # 路径匹配
+        - id: service-order
+          uri: lb://service-order
+          predicates:
+          - Path=/orderservice/** # 路径匹配
+        - id: service_oss
+          uri: lb://service_oss
+          predicates:
+          - Path=/eduoss/** # 路径匹配
+        - id: service-statistics
+          uri: lb://service-statistics
+          predicates:
+          - Path=/edustatistics/** # 路径匹配
+        - id: service-ucenter
+          uri: lb://service-ucenter
+          predicates:
+          - Path=/api/** # 路径匹配
+        - id: service-vod
+          uri: lb://service-vod
+          predicates:
+          - Path=/eduvod/** # 路径匹配
+
+
+
+

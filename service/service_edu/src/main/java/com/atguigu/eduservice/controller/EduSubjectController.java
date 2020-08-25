@@ -22,7 +22,7 @@ import java.util.List;
  * @author testjava
  * @since 2020-02-29
  */
-@CrossOrigin
+//@CrossOrigin
 @RestController
 @RequestMapping("/eduservice/subject")
 @Api(description = "课程接口", value = "课程接口")

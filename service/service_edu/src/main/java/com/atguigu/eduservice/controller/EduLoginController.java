@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @Api(description = "后台用户登录接口")
 @RequestMapping("/eduservice/user")
-@CrossOrigin(origins = "http://localhost:9528")
+//@CrossOrigin(origins = "http://localhost:9528")
 public class EduLoginController {
 
     @PostMapping("login")

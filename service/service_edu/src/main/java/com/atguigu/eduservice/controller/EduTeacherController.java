@@ -40,7 +40,7 @@ import java.util.Map;
 @RestController
 @RequestMapping("/eduservice/teacher")
 @Api(description = "教育模块里面老师相关信息接口")
-@CrossOrigin(origins = "http://localhost:9528")
+//@CrossOrigin(origins = "http://localhost:9528")
 public class EduTeacherController {
     @Autowired
     private EduTeacherService eduTeacherService;

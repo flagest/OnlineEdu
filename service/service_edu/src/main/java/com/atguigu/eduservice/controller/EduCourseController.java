@@ -26,7 +26,7 @@ import javax.annotation.Resource;
  * @since 2020-07-18
  */
 @RestController
-@CrossOrigin
+//@CrossOrigin
 @RequestMapping("/eduservice/course")
 @Api(description = "课程相关接口")
 public class EduCourseController {

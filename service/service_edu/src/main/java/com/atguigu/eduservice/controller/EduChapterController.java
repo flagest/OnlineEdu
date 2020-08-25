@@ -22,7 +22,7 @@ import java.util.List;
  * @since 2020-07-18
  */
 @RestController
-@CrossOrigin
+//@CrossOrigin
 @RequestMapping("/eduservice/chapter")
 @Api(description = "课程章节接口", value = "课程章节接口")
 public class EduChapterController {
