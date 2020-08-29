@@ -11,7 +11,7 @@ import javax.annotation.Resource;
 /**
  * @author wu on 2020/8/9 0009
  */
-@CrossOrigin
+//@CrossOrigin
 @RestController
 @RequestMapping("/eduservice/techerfront")
 @Api(description = "前台的前端页关于讲师相关接口")

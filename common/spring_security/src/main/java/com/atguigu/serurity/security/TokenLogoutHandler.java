@@ -25,6 +25,7 @@ public class TokenLogoutHandler implements LogoutHandler {
     public TokenLogoutHandler(TokenManager tokenManager, RedisTemplate redisTemplate) {
         this.tokenManager = tokenManager;
         this.redisTemplate = redisTemplate;
+
     }
 
     @Override

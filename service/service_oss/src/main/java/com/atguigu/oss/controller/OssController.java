@@ -16,7 +16,7 @@ import javax.annotation.Resource;
  * @author wu on 2020/7/12 0012
  */
 @RestController
-@CrossOrigin
+//@CrossOrigin
 @RequestMapping("/eduoss/fileoss")
 @Api(value = "上传图片", description = "上传图片")
 public class OssController {

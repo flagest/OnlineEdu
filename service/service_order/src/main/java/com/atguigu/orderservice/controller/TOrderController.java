@@ -22,7 +22,7 @@ import javax.servlet.http.HttpServletRequest;
  * @author zhengWu
  * @since 2020-08-16
  */
-@CrossOrigin
+//@CrossOrigin
 @RestController
 @RequestMapping("/orderservice/order")
 @Api(description = "用户添加订单信息接口")

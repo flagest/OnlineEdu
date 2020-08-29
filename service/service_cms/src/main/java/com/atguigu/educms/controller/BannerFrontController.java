@@ -20,7 +20,7 @@ import java.util.List;
  * @author zhengWu
  * @since 2020-08-01
  */
-@CrossOrigin
+//@CrossOrigin
 @RestController
 @RequestMapping("/educms/bannerfront")
 public class BannerFrontController {

@@ -19,7 +19,7 @@ import javax.servlet.http.HttpServletRequest;
  * @author zhengWu
  * @since 2020-08-15
  */
-@CrossOrigin
+//@CrossOrigin
 @RestController
 @RequestMapping("/eduservice/commentfront")
 @Api(description = "这是给前端展示评论的页面功能接口")

@@ -21,7 +21,7 @@ import java.util.Map;
 /**
  * @author wu on 2020/8/9 0009
  */
-@CrossOrigin
+//@CrossOrigin
 @RestController
 @RequestMapping("/eduservice/coursefront")
 @Api(description = "前台前端页面展示的课程信息接口")

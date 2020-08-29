@@ -38,8 +38,8 @@ public class CanalClient {
     public void run() {
 
         CanalConnector connector = CanalConnectors
-                .newSingleConnector(new InetSocketAddress("",
-                        98989), "", "", "");
+                .newSingleConnector(new InetSocketAddress("139.159.183.172",
+                        11111), "example", "", "");
         int batchSize = 1000;
         try {
             connector.connect();

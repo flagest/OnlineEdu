@@ -11,7 +11,7 @@ import javax.annotation.Resource;
 /**
  * @author wu on 2020/8/4 000
  */
-@CrossOrigin
+//@CrossOrigin
 @RestController
 @RequestMapping("/edumsm/msm")
 @Api(description = "发送短信接口")

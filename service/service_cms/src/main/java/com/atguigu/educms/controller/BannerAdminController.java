@@ -21,7 +21,7 @@ import java.util.List;
  * @author zhengWu
  * @since 2020-08-01
  */
-@CrossOrigin
+//@CrossOrigin
 @RestController
 @RequestMapping("/educms/banneradmin")
 @Api(description = "后台管理的banner表")

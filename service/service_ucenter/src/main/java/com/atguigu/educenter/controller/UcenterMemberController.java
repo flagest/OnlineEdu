@@ -24,7 +24,7 @@ import javax.servlet.http.HttpServletRequest;
  * @author zhengWu
  * @since 2020-08-05
  */
-@CrossOrigin
+//@CrossOrigin
 @RestController
 //@RequestMapping("/educenter/member")
 @RequestMapping("/api/ucenter/member")

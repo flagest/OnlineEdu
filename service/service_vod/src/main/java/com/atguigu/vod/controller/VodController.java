@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 
-@CrossOrigin
+//@CrossOrigin
 @RestController
 @RequestMapping("/eduvod/video")
 @Api(value = "视频上传接口",description ="视频上传接口" )

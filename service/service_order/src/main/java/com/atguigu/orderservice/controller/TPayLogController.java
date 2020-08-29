@@ -17,7 +17,7 @@ import javax.annotation.Resource;
  * @author zhengWu
  * @since 2020-08-16
  */
-@CrossOrigin
+//@CrossOrigin
 @RestController
 @RequestMapping("/orderservice/paylog")
 @Api(description = "订单记录添相关接口")

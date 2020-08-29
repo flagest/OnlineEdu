@@ -17,7 +17,7 @@ import javax.annotation.Resource;
  * @author zhengWu
  * @since 2020-08-20
  */
-@CrossOrigin
+//@CrossOrigin
 @RestController
 @RequestMapping("/edustatistics/sta")
 @Api(description = "统计注册人数接口")

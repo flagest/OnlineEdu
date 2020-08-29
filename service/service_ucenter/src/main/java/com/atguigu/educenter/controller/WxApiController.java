@@ -28,7 +28,7 @@ import java.util.HashMap;
  * @author wu on 2020/8/8 0008
  */
 @Slf4j
-@CrossOrigin
+//@CrossOrigin
 @Controller
 @RequestMapping("/api/ucenter/wx")
 @Transactional(rollbackFor = Exception.class)

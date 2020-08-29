@@ -21,7 +21,7 @@ import java.util.List;
 /**
  * @author wu on 2020/8/1 0001
  */
-@CrossOrigin
+//@CrossOrigin
 @RestController
 @RequestMapping("/eduservice/indexfront")
 @Api(description = "返回前8个名师，前4个名师")
