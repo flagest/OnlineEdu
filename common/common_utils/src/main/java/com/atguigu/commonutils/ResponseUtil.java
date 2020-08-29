@@ -15,7 +15,7 @@ public class ResponseUtil {
         response.setStatus(HttpStatus.OK.value());
         response.setContentType(MediaType.APPLICATION_JSON_UTF8_VALUE);
         try {
-            mapper.writeValue(response.getWriter(), r);
+            mapper.writeValue(response.getOutputStream(), r);
         } catch (IOException e) {
             e.printStackTrace();
         }

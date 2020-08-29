@@ -19,6 +19,17 @@ spring:
     nacos:
       discovery:
         server-addr: 127.0.0.1:8848  #nacos服务地址
+  redis: #redis相关配置
+    host: 127.0.0.1
+    port: 6379
+    database: 0
+    timeout: 1800000
+    lettuce:
+      pool:
+        max-active: 20
+        max-wait: -1  #最大阻塞等待时间（负数表示没有限制）
+        max-idle: 5
+        min-idle: 0
       #mp日志
 mybatis-plus:
   mapper-locations: classpath:mappers/*.xml  #mp的扫描xml路径配置
