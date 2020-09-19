@@ -29,11 +29,11 @@ public class TestVod {
     }
 
     private static void getVideoInfo() throws ClientException {
-        DefaultAcsClient defaultAcsClient = InitObject.initVodClient("**"
-                , "**");
+        DefaultAcsClient defaultAcsClient = InitObject.initVodClient(""
+                , "");
 //        GetPlayInfoResponse response = new GetPlayInfoResponse();
         GetPlayInfoRequest request = new GetPlayInfoRequest();
-        request.setVideoId("*");
+        request.setVideoId("");
         GetPlayInfoResponse response = defaultAcsClient.getAcsResponse(request);
         List<GetPlayInfoResponse.PlayInfo> playInfoList = response.getPlayInfoList();
         playInfoList.forEach(one -> System.out.println("Play info URL  " + one.getPlayURL() + "\n"));
@@ -42,7 +42,7 @@ public class TestVod {
 
     public static GetPlayInfoResponse getPlayInfo(DefaultAcsClient client) throws ClientException {
         GetPlayInfoRequest request = new GetPlayInfoRequest();
-        request.setVideoId("*");
+        request.setVideoId("");
         return client.getAcsResponse(request);
 
     }
@@ -54,9 +54,9 @@ public class TestVod {
         String title = "测试上传视频";
         //本地文件上传和文件流上传时，文件名称为上传文件绝对路径，如:/User/sample/文件名称.mp4 (必选)
         //文件名必须包含扩展名
-        String fileName = "D:\\*.mp4";
-        UploadVideoRequest request = new UploadVideoRequest("**"
-                , "**", title, fileName);
+        String fileName = "D:\\2bad5d271de54723b782bdb57cd81fcf.mp4";
+        UploadVideoRequest request = new UploadVideoRequest(""
+                , "", title, fileName);
 
         /* 可指定分片上传时每个分片的大小，默认为1M字节 */
         request.setPartSize(2 * 1024 * 1024L);

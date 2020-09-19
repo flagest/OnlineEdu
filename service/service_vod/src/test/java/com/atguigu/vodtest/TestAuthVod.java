@@ -11,10 +11,10 @@ import com.aliyuncs.vod.model.v20170321.GetVideoPlayAuthResponse;
 public class TestAuthVod {
     public static void main(String[] args)   {
         try {
-            DefaultAcsClient client = InitObject.initVodClient("*"
-                    , "*");
+            DefaultAcsClient client = InitObject.initVodClient(""
+                    , "");
             GetVideoPlayAuthRequest request = new GetVideoPlayAuthRequest();
-            request.setVideoId("*");
+            request.setVideoId("");
 
             GetVideoPlayAuthResponse response = client.getAcsResponse(request);
             System.out.println("ResponeAuth=  "+response.getPlayAuth()+"\n");

@@ -43,8 +43,8 @@ public class MsmServiceImpl implements MsmService {
         if (StringUtils.isEmpty(phone)) return R.error().message("验证码为空:(");
 
         DefaultProfile profile =
-                DefaultProfile.getProfile("default", "*"
-                        , "*");
+                DefaultProfile.getProfile("default", "LTAI4FjWa9vboNKj7NxGpLTW"
+                        , "deCyHlvBqywIa6LOjl8XP8WLBPcHkR");
         IAcsClient client = new DefaultAcsClient(profile);
 
         //设置关键参数
@@ -57,8 +57,8 @@ public class MsmServiceImpl implements MsmService {
 
         //设置发送相关参数
         request.putQueryParameter("PhoneNumbers", phone);
-        request.putQueryParameter("SignName", "陈晨购物商城");
-        request.putQueryParameter("TemplateCode", "SMS_184215727");
+        request.putQueryParameter("SignName", "");
+        request.putQueryParameter("TemplateCode", "");
         request.putQueryParameter("TemplateParam", JSONObject.toJSONString(params));
         try {
             CommonResponse response = client.getCommonResponse(request);

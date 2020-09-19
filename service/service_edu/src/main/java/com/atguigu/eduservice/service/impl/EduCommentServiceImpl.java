@@ -1,5 +1,6 @@
 package com.atguigu.eduservice.service.impl;
 
+import com.atguigu.commonutils.JwtUtils;
 import com.atguigu.commonutils.R;
 import com.atguigu.eduservice.client.UcenterClient;
 import com.atguigu.eduservice.entity.EduComment;
@@ -36,6 +37,8 @@ public class EduCommentServiceImpl extends ServiceImpl<EduCommentMapper, EduComm
     @Resource
     private UcenterClient ucenterClient;
 
+    @Resource
+    private HttpServletRequest request;
 
     @Override
     public R getCommentList(long page, long limit, String courseId) {
@@ -58,16 +61,13 @@ public class EduCommentServiceImpl extends ServiceImpl<EduCommentMapper, EduComm
     }
 
     @Override
-    public R addcomments(EduComment eduComment,HttpServletRequest request) {
-        String token = request.getHeader("token");
+    public R addcomments(EduComment eduComment) {
+        String memberId = JwtUtils.getMemberIdByJwtToken(request);
+        if (StringUtils.isEmpty(memberId))
+            throw new GuLiException(20001, "请登录在做评论:(");
+        UcenterMemberDTO ucenterMemberDTO = ucenterClient.getUserInfoOrder(memberId);
         if (StringUtils.isEmpty(eduComment.getCourseId()) || StringUtils.isEmpty(eduComment.getTeacherId()))
             throw new GuLiException(20001, "请传入课程或讲师信息:(");
-        R memberInfo = ucenterClient.getMemberInfo(request);
-        /*if (!memberInfo.isSuccess())
-            throw new GuLiException(20001, "根据前端传入token获取用户信息失败:(");*/
-        Map<String, Object> data = memberInfo.getData();
-        UcenterMemberDTO ucenterMemberDTO = (UcenterMemberDTO) data.get("userInfo");
-        //调用token方法获取用户信息
         eduComment.setMemberId(ucenterMemberDTO.getId());
         eduComment.setNickname(ucenterMemberDTO.getNickname());
         eduComment.setAvatar(ucenterMemberDTO.getAvatar());

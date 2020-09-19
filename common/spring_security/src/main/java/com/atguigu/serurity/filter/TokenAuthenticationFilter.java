@@ -1,5 +1,6 @@
 package com.atguigu.serurity.filter;
 
+
 import com.atguigu.commonutils.R;
 import com.atguigu.commonutils.ResponseUtil;
 import com.atguigu.serurity.security.TokenManager;
@@ -11,7 +12,6 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.util.StringUtils;
-
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;

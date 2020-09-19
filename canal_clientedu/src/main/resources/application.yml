@@ -7,6 +7,6 @@ spring:
     active: dev
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/guli?serverTimezone=GMT%2B8
-    username: root
-    password: root123456
+    url:
+    username:
+    password:

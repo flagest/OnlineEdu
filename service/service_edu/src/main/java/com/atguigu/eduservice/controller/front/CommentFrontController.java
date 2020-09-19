@@ -37,8 +37,8 @@ public class CommentFrontController {
 
     @PostMapping("/addcomments")
     @ApiOperation("用户传入评论信息")
-    public R addcomments(@RequestBody EduComment eduComment,HttpServletRequest request) {
-        return commentService.addcomments(eduComment,request);
+    public R addcomments(@RequestBody EduComment eduComment) {
+        return commentService.addcomments(eduComment);
     }
 }
 

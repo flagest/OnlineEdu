@@ -12,11 +12,19 @@ spring:
   cloud:
     nacos:
       discovery:
-        server-addr: 127.0.0.1:8848
+        server-addr:
+feign:
+  hystrix:
+    enabled: true  #true表示开启熔断器
+
 
 #阿里云oss
 aliyun:
   oss:
     file:
+      endpoint:
+      keyid:
+      keysecret:
+      bucketname:
 
 

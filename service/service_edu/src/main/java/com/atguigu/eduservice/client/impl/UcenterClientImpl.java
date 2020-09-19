@@ -2,6 +2,7 @@ package com.atguigu.eduservice.client.impl;
 
 import com.atguigu.commonutils.R;
 import com.atguigu.eduservice.client.UcenterClient;
+import com.atguigu.servicebase.dto.UcenterMemberDTO;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
@@ -15,5 +16,10 @@ public class UcenterClientImpl implements UcenterClient {
     public R getMemberInfo(HttpServletRequest request) {
 
         return R.error().message("根据前端传入token获取用户信息失败:(");
+    }
+
+    @Override
+    public UcenterMemberDTO getUserInfoOrder(String memerId) {
+        return null;
     }
 }

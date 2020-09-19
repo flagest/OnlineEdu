@@ -8,7 +8,6 @@
         <version>0.0.1-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
-
     <artifactId>service</artifactId>
     <packaging>pom</packaging>
     <modules>
@@ -19,7 +18,6 @@
         <module>service_msm</module>
         <module>service_ucenter</module>
         <module>service_order</module>
-        <module>server_statistics</module>
         <module>service_statistics</module>
         <module>service_acl</module>
     </modules>
@@ -48,15 +46,20 @@
         </dependency>
 
         <!--服务注册-->
-         <dependency>
-             <groupId>org.springframework.cloud</groupId>
-             <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
-         </dependency>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
+        </dependency>
+        <!--  &lt;!&ndash;服务配置&ndash;&gt;
+          <dependency>
+              <groupId>org.springframework.cloud</groupId>
+              <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
+          </dependency>-->
         <!--服务调用-->
-         <dependency>
-             <groupId>org.springframework.cloud</groupId>
-             <artifactId>spring-cloud-starter-openfeign</artifactId>
-         </dependency>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-openfeign</artifactId>
+        </dependency>
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -135,5 +138,13 @@
             <version>4.12</version>
         </dependency>
     </dependencies>
-
+    <!--Maven插件-->
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
 </project>

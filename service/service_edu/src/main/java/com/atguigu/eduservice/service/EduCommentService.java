@@ -18,5 +18,5 @@ public interface EduCommentService extends IService<EduComment> {
 
     R getCommentList(long page, long limit,String courseId);
 
-    R addcomments(EduComment eduComment,HttpServletRequest request);
+    R addcomments(EduComment eduComment);
 }

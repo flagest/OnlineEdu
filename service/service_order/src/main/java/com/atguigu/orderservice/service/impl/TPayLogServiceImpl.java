@@ -48,20 +48,20 @@ public class TPayLogServiceImpl extends ServiceImpl<TPayLogMapper, TPayLog> impl
             TOrder tOrder = tOrderService.getOne(laQuerOrder);
             //2 使用Map设置生成二维码参数
             Map<String, String> mapParm = new HashMap<>();
-            mapParm.put("appid", "wx74862e0dfcf69954");
-            mapParm.put("mch_id", "1558950191");
+            mapParm.put("appid", "");
+            mapParm.put("mch_id", "");
             mapParm.put("nonce_str", WXPayUtil.generateNonceStr());
             mapParm.put("body", tOrder.getCourseTitle());
             mapParm.put("out_trade_no", orderNo);
             mapParm.put("total_fee", tOrder.getTotalFee().multiply(new BigDecimal("100")).longValue() + "");
             mapParm.put("spbill_create_ip", "127.0.0.1");
-            mapParm.put("notify_url", "http://guli.shop/api/order/weixinPay/weixinNotify\n");
+            mapParm.put("notify_url", "");
             mapParm.put("trade_type", "NATIVE");
             //3发送httpClient请求，传递参数为xml格式
-            HttpClient client = new HttpClient("https://api.mch.weixin.qq.com/pay/unifiedorder");
+            HttpClient client = new HttpClient("");
 
             //client设置参数
-            client.setXmlParam(WXPayUtil.generateSignedXml(mapParm, "T6m9iK73b0kn9g5v426MKfHQH7X8rKwb"));
+            client.setXmlParam(WXPayUtil.generateSignedXml(mapParm, ""));
             client.setHttps(true);
             client.post();
             String xml = client.getContent();
@@ -86,14 +86,14 @@ public class TPayLogServiceImpl extends ServiceImpl<TPayLogMapper, TPayLog> impl
         try {
             //1、封装参数
             Map m = new HashMap<>();
-            m.put("appid", "wx74862e0dfcf69954");
-            m.put("mch_id", "1558950191");
+            m.put("appid", "");
+            m.put("mch_id", "");
             m.put("out_trade_no", orderNo);
             m.put("nonce_str", WXPayUtil.generateNonceStr());
 
             //2、设置请求
-            HttpClient client = new HttpClient("https://api.mch.weixin.qq.com/pay/orderquery");
-            client.setXmlParam(WXPayUtil.generateSignedXml(m, "T6m9iK73b0kn9g5v426MKfHQH7X8rKwb"));
+            HttpClient client = new HttpClient("");
+            client.setXmlParam(WXPayUtil.generateSignedXml(m, ""));
             client.setHttps(true);
             client.post();
             //3、返回第三方的数据
